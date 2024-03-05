@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.StringTokenizer;
+import java.util.*;
 
 
 /*
@@ -38,14 +35,12 @@ public class Main {
             }
         }
 
-        String[] workerArr = new String[set.size()];
+        ArrayList<String> list = new ArrayList<>(set);
 
-        set.toArray(workerArr);
+        Collections.sort(list);
 
-        Arrays.sort(workerArr);
-
-        for (int i = workerArr.length - 1; i >= 0; i--) {
-            System.out.println(workerArr[i]);
+        for(int i=list.size()-1;i>=0;i--){
+            System.out.println(list.get(i));
         }
     }
 
