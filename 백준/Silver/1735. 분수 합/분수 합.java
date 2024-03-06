@@ -30,10 +30,10 @@ public class Main {
         int resultTop = (lcm / bottom1) * top1 + (lcm / bottom2) * top2;
 
         int lcmTopBottom = gcd(resultBottom, resultTop);
-        
+
         resultTop /= lcmTopBottom;
         resultBottom /= lcmTopBottom;
-        
+
         System.out.println(resultTop + " " + resultBottom);
 
 
