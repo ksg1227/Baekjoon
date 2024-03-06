@@ -18,12 +18,11 @@ public class Main {
         String str = br.readLine();
 
         HashSet<String> set = new HashSet<>();
-
-
+        
         for (int i = 0; i < str.length(); i++) {
             int len = 0;
 
-            while (i + len < str.length()) {
+            while (i + len + 1 <= str.length()) {
                 set.add(str.substring(i, i + len + 1));
                 len++;
             }
