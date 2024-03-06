@@ -23,16 +23,12 @@ public class Main {
 
             String tempStr = Character.toString(str.charAt(i));
 
-            if(!set.contains(tempStr)){
-                set.add(tempStr);
-            }
+            set.add(tempStr);
 
             for (int j = i + 1; j < str.length(); j++) {
                 tempStr = tempStr + str.charAt(j);
 
-                if (!set.contains(tempStr)) {
-                    set.add(tempStr);
-                }
+                set.add(tempStr);
             }
         }
 
