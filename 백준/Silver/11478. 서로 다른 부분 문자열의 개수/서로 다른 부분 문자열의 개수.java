@@ -19,20 +19,18 @@ public class Main {
 
         HashSet<String> set = new HashSet<>();
 
+
         for (int i = 0; i < str.length(); i++) {
+            int len = 0;
 
-            String tempStr = Character.toString(str.charAt(i));
-
-            set.add(tempStr);
-
-            for (int j = i + 1; j < str.length(); j++) {
-                tempStr = tempStr + str.charAt(j);
-
-                set.add(tempStr);
+            while (i + len < str.length()) {
+                set.add(str.substring(i, i + len + 1));
+                len++;
             }
         }
 
         System.out.println(set.size());
+
     }
 
     public static void main(String args[]) throws Exception {
