@@ -19,25 +19,19 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
         
-        
-        int top = 1;
-        int bottom = 1;
+        System.out.println(fac(N) / (fac(N-K) * fac(K)));
 
-        for (int i = 0; i < K; i++) {
-            top *= N;
-            N--;
-        }
-        
-        int tempK = K;
 
-        for (int i = 0; i < tempK; i++) {
-            bottom *= K;
-            K--;
+    }
+
+    static int fac(int N) {
+        int result = 1;
+
+        for (int i = N; i >= 1; i--) {
+            result *= i;
         }
 
-        System.out.println(top / bottom);
-
-
+        return result;
     }
 
     public static void main(String args[]) throws Exception {
