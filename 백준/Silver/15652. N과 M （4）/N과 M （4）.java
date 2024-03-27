@@ -30,48 +30,26 @@ public class Main {
 
         arr = new int[M];
 
-        dfs(N, M, 0);
+        dfs(N, M, 0, 1);
 
         System.out.println(sb);
 
     }
 
-    static void dfs(int N, int M, int depth) {
+    static void dfs(int N, int M, int depth, int at) {
         if (depth == M) {
-            ArrayList<Integer> list = new ArrayList<>();
             for (int val : arr) {
-                list.add(val);
+                sb.append(val).append(" ");
             }
-            if (checkAscending(list)) {
-                for (int val : list) {
-                    sb.append(val).append(" ");
-                }
-                sb.append("\n");
-            }
+            sb.append("\n");
+
             return;
         }
 
-        for (int i = 0; i < N; i++) {
-            arr[depth] = i + 1;
-            dfs(N, M, depth + 1);
+        for (int i = at; i <= N; i++) {
+            arr[depth] = i;
+            dfs(N, M, depth + 1, i);
         }
-    }
-
-    static boolean checkAscending(ArrayList<Integer> list) {
-
-        int maxN = Integer.MIN_VALUE;
-
-        boolean check = true;
-
-        for (int num : list) {
-            maxN = Math.max(maxN, num);
-
-            if (maxN != num) {
-                check = false;
-            }
-        }
-
-        return check;
     }
 
 
