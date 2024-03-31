@@ -25,10 +25,16 @@ public class Main {
         for (int i = 0; i < L; i++) {
             char c = str.charAt(i);
 
-            result += (long) (((c - 'a' + 1) * Math.pow(31, i))) % M;
+            long mulNum = 1;
+
+            for(int j=0;j<i;j++){
+                mulNum = (mulNum * 31) % M;
+            }
+
+            result += (c - 'a' + 1) * mulNum;
         }
 
-        System.out.println(result);
+        System.out.println(result % M);
 
     }
 
