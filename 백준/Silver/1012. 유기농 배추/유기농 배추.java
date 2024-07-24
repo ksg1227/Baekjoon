@@ -30,10 +30,33 @@ public class Main {
             int next_x = x + dx[i];
             int next_y = y + dy[i];
 
-            if (next_x >= 0 && next_y >= 0 && next_x < M && next_y < N) {
+
+            if (map[next_x][next_y] == 1 && !visit[next_x][next_y]) {
+                dfs(next_x, next_y);
+            }
+
+        }
+    }
+
+    public static void bfs(int x, int y) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{x, y});
+
+        while (!queue.isEmpty()) {
+            x = queue.peek()[0];
+            y = queue.peek()[1];
+            visit[x][y] = true;
+            queue.poll();
+
+            for (int i = 0; i < 4; i++) {
+                int next_x = x + dx[i];
+                int next_y = y + dy[i];
+
                 if (map[next_x][next_y] == 1 && !visit[next_x][next_y]) {
-                    dfs(next_x, next_y);
+                    queue.add(new int[]{next_x, next_y});
+                    visit[next_x][next_y] = true;
                 }
+
             }
         }
     }
@@ -49,8 +72,8 @@ public class Main {
             StringTokenizer st = new StringTokenizer(br.readLine());
             M = Integer.parseInt(st.nextToken());
             N = Integer.parseInt(st.nextToken());
-            map = new int[M][N];
-            visit = new boolean[M][N];
+            map = new int[M + 2][N + 2];
+            visit = new boolean[M + 2][N + 2];
 
             K = Integer.parseInt(st.nextToken());
 
@@ -58,12 +81,12 @@ public class Main {
                 st = new StringTokenizer(br.readLine());
                 int x = Integer.parseInt(st.nextToken());
                 int y = Integer.parseInt(st.nextToken());
-                map[x][y] = 1;
+                map[x + 1][y + 1] = 1;
             }
 
-            for (int x = 0; x < M; x++) {
-                for(int y = 0; y < N; y++) {
-                    if(map[x][y] == 1 && !visit[x][y]) {
+            for (int x = 1; x < M + 1; x++) {
+                for (int y = 1; y < N + 1; y++) {
+                    if (map[x][y] == 1 && !visit[x][y]) {
                         dfs(x, y);
                         count++;
                     }
@@ -74,7 +97,6 @@ public class Main {
         }
 
         System.out.println(sb);
-
 
 
     }
