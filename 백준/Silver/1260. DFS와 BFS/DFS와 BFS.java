@@ -47,7 +47,7 @@ public class Main {
 
         dfs(V);
         clear();
-        bfs(V);
+        repeat_Bfs(V);
 
 
         System.out.println(sb1);
@@ -67,20 +67,37 @@ public class Main {
         }
     }
 
-    static void bfs(int vertexNum) {
+//    static void recursive_Bfs(int vertexNum) {
+//
+//        visit[vertexNum] = true;
+//        sb2.append(vertexNum).append(" ");
+//
+//        for (int i = 1; i <= N; i++) {
+//            if (graph[vertexNum][i] == 1 && visit[i] == false
+//                    && !queue.contains(i)) {
+//                queue.add(i);
+//            }
+//        }
+//
+//        while (!queue.isEmpty()) {
+//            bfs(queue.poll());
+//        }
+//    }
 
-        visit[vertexNum] = true;
-        sb2.append(vertexNum).append(" ");
+    static void repeat_Bfs(int vertexNum) {
 
-        for (int i = 1; i <= N; i++) {
-            if (graph[vertexNum][i] == 1 && visit[i] == false
-                    && !queue.contains(i)) {
-                queue.add(i);
-            }
-        }
+        visit[vertexNum] = true;   //첫번째 정점을 위한 부분
+        queue.add(vertexNum);      //마찬가지로 첫번째 정점을 위한 부분
 
         while (!queue.isEmpty()) {
-            bfs(queue.poll());
+            int vertex = queue.poll();
+            sb2.append(vertex).append(" ");
+            for (int i = 1; i <= N; i++) {
+                if (graph[vertex][i] == 1 && visit[i] == false && !queue.contains(i)) {
+                    visit[i] = true;
+                    queue.add(i);
+                }
+            }
         }
     }
 
