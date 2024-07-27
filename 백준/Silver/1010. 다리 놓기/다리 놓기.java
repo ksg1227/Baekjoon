@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 /*
     단계별로 풀어보기
     조합론
-    10872번 문제: 팩토리얼
+    1010번 문제: 다리 놓기
 */
 
 public class Main {
