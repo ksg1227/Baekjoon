@@ -3,59 +3,57 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-
 /*
-    단계별로 풀어보기
-    집합과 맵
-    1764번 문제: 듣보잡
-*/
+    solved.ac
+    class3
+    1764번 문제 : 듣보잡
+ */
 
 public class Main {
-    public static void solution() throws IOException {
 
+    static int N;
+    static int M;
+
+    static Set<String> set = new HashSet<>();
+    static ArrayList<String> list = new ArrayList<>();
+
+    static void solution() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        HashSet<String> set = new HashSet<>();
-
-        for(int i=0;i<N;i++){
+        for (int i = 0; i < N; i++) {
             String hearPerson = br.readLine();
 
             set.add(hearPerson);
         }
 
-        int count = 0;
-
-        ArrayList<String> list = new ArrayList<>();
-
-        for(int i=0;i<M;i++){
+        for (int i = 0; i < M; i++) {
             String seePerson = br.readLine();
 
-            if(set.contains(seePerson)){
-                count++;
+            if (set.contains(seePerson)) {
                 list.add(seePerson);
             }
         }
 
         Collections.sort(list);
 
-        StringBuilder sb = new StringBuilder();
+        sb.append(list.size()).append("\n");
 
-        sb.append(count).append("\n");
-
-        for(int i=0;i<list.size();i++){
-            sb.append(list.get(i)).append("\n");
+        for (String s : list) {
+            sb.append(s).append("\n");
         }
 
         System.out.println(sb);
 
     }
 
-    public static void main(String args[]) throws Exception {
+
+    public static void main(String[] args) throws Exception {
         Main.solution();
     }
 }
