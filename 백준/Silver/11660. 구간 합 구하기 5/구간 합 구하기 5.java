@@ -27,13 +27,13 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        sum_map = new int[N][N];
+        sum_map = new int[N + 1][N + 1];
 
         // map에 누적합 저장
-        for (int i = 0; i < N; i++) {
+        for (int i = 1; i < N + 1; i++) {
             st = new StringTokenizer(br.readLine());
             int temp_sum = 0;
-            for (int j = 0; j < N; j++) {
+            for (int j = 1; j < N + 1; j++) {
                 temp_sum += Integer.parseInt(st.nextToken());
 
                 sum_map[i][j] = temp_sum;
@@ -42,27 +42,17 @@ public class Main {
 
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int x1 = Integer.parseInt(st.nextToken()) - 1;
-            int y1 = Integer.parseInt(st.nextToken()) - 1;
-            int x2 = Integer.parseInt(st.nextToken()) - 1;
-            int y2 = Integer.parseInt(st.nextToken()) - 1;
+            int x1 = Integer.parseInt(st.nextToken());
+            int y1 = Integer.parseInt(st.nextToken());
+            int x2 = Integer.parseInt(st.nextToken());
+            int y2 = Integer.parseInt(st.nextToken());
 
             int result = 0;
             if (x1 == x2) {
-                if (y1 == 0) {
-                    result = sum_map[x2][y2];
-                } else {
-                    result = sum_map[x2][y2] - sum_map[x1][y1 - 1];
-                }
+                result = sum_map[x2][y2] - sum_map[x1][y1 - 1];
             } else {
-                if (y1 == 0) {
-                    for (int j = x1; j <= x2; j++) {
-                        result += sum_map[j][y2];
-                    }
-                } else {
-                    for (int j = x1; j <= x2; j++) {
-                        result += sum_map[j][y2] - sum_map[j][y1 - 1];
-                    }
+                for (int j = x1; j <= x2; j++) {
+                    result += sum_map[j][y2] - sum_map[j][y1 - 1];
                 }
             }
 
