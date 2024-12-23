@@ -17,23 +17,24 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        int length = Integer.parseInt(br.readLine());
+        int M = Integer.parseInt(br.readLine());
         String S = br.readLine();
 
-        StringBuilder P_N = new StringBuilder();
-
-        for (int i = 0; i < (2 * N + 1); i++) {
-            if (i % 2 == 0) {
-                P_N.append("I");
-            } else {
-                P_N.append("O");
-            }
-        }
-
+        int count = 0;  //I + OI가 몇 개인지
         int result = 0;
-        for (int i = 0; i <= length - (2 * N + 1); i++) {
-            if (P_N.toString().equals(S.substring(i, i + (2 * N + 1)))) {
-                result++;
+
+        for (int i = 1; i < M - 1; i++) {
+            if(S.charAt(i) == 'O' && S.charAt(i-1) == 'I' && S.charAt(i+1) == 'I') {
+                count++;
+
+                if(count == N) {
+                    count--;
+                    result++;
+                }
+                
+                i++;
+            } else{
+                count = 0;
             }
         }
 
