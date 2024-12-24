@@ -1,62 +1,74 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /*
-    solved.ac
-    class3
-    1541번 문제 : 잃어버린 괄호
- */
+    단계별로 풀어보기
+    그리디
+    1541번 : 잃어버린 괄호
+*/
 
 public class Main {
+
+    // 첫번째 - 이전의 값들은 다 더하고, 첫번째 - 이후의 값은 다 빼면 됨
 
     static void solution() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        StringTokenizer st = new StringTokenizer(br.readLine(), "-");
+        String formula = br.readLine();
 
-        ArrayList<Integer> list = new ArrayList<>();
+        int result = 0;
+        String tempNum = "";
+        int tempSum = 0;
 
-        while (st.hasMoreTokens()) {
-            String partialFormula = st.nextToken();
+        boolean isFirstMinus = true;
 
-            String num = "";
+        int minusCount = 0;
 
-            int result = 0;
 
-            for (int i = 0; i < partialFormula.length(); i++) {
+        for (int i = 0; i < formula.length(); i++) {
+            if (formula.charAt(i) == '-') {
+                minusCount++;
 
-                String token = String.valueOf(partialFormula.charAt(i));
+                if (isFirstMinus) {
+                    isFirstMinus = false;
+                    result += Integer.parseInt(tempNum);
+                    tempNum = "";
+                    continue;
+                }
 
-                if (token.equals("+")) {
-                    result += Integer.parseInt(num);
-                    num = "";
-                } else {
-                    num += token;
+                result -= Integer.parseInt(tempNum);
+                tempNum = "";
 
-                    if (i == partialFormula.length() - 1) {
-                        result += Integer.parseInt(num);
+            } else if(formula.charAt(i) == '+') {
+                if(minusCount == 0) {
+                    result += Integer.parseInt(tempNum);
+                } else{
+                    result -= Integer.parseInt(tempNum);
+                }
+                tempNum = "";
+            } else{
+                tempNum += formula.charAt(i);
+
+                if(i == formula.length() - 1) {
+                    if(minusCount == 0) {
+                        result += Integer.parseInt(tempNum);
+                    } else{
+                        result -= Integer.parseInt(tempNum);
                     }
                 }
             }
-
-            list.add(result);
         }
 
-        int totalResult = list.get(0);
+        System.out.println(result);
 
-        for (int i = 1; i < list.size(); i++) {
-            totalResult -= list.get(i);
-        }
-
-        System.out.println(totalResult);
 
     }
 
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String args[]) throws Exception {
         Main.solution();
     }
 }
+
