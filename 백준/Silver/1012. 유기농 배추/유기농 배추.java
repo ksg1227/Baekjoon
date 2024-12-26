@@ -1,6 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -46,7 +49,10 @@ public class Main {
             for (int j = 0; j < M; j++) {
                 for (int k = 0; k < N; k++) {
                     if (map[j][k] == 1 && !visited[j][k]) {
-                        count += dfs(j, k);
+//                        dfs(j, k);
+//                        bfs(j, k);
+                        dfs_stack(j, k);
+                        count++;
                     }
                 }
             }
@@ -58,24 +64,74 @@ public class Main {
 
     }
 
-    public static int dfs(int x, int y) {
 
-        if (map[x][y] == 1 && !visited[x][y]) {
-            visited[x][y] = true;
+    // 재귀 활용 dfs
+    public static void dfs(int x, int y) {
+        visited[x][y] = true;
+
+        for (int i = 0; i < 4; i++) {
+            int next_x = x + dx[i];
+            int next_y = y + dy[i];
+
+            if (next_x >= 0 && next_x < M && next_y >= 0 && next_y < N) {
+                if (map[next_x][next_y] == 1 && !visited[next_x][next_y]) {
+                    dfs(next_x, next_y);
+                }
+            }
+        }
+    }
+
+    // 스택 + 반복문 활용 dfs
+    public static void dfs_stack(int x, int y) {
+        Stack<int[]> stack = new Stack<>();
+        stack.push(new int[]{x, y});
+        visited[x][y] = true;
+
+        while(!stack.isEmpty()) {
+            int[] data = stack.pop();
+            int current_x = data[0];
+            int current_y = data[1];
 
             for (int i = 0; i < 4; i++) {
-                int next_x = x + dx[i];
-                int next_y = y + dy[i];
+                int next_x = current_x + dx[i];
+                int next_y = current_y + dy[i];
 
-                if (next_x >= 0 && next_x < M && next_y >= 0 && next_y < N) {
-                    if(!visited[next_x][next_y]) {
-                        dfs(next_x, next_y);
+                if(next_x >= 0 && next_x < M && next_y >= 0 && next_y < N) {
+                    if(!visited[next_x][next_y] && map[next_x][next_y] == 1) {
+                        visited[next_x][next_y] = true;
+                        stack.push(new int[]{next_x, next_y});
                     }
                 }
             }
         }
+    }
 
-        return 1;
+
+    // 큐 + 반복문 활용 bfs
+    public static void bfs(int x, int y) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{x, y});
+
+        visited[x][y] = true;
+
+        while (!queue.isEmpty()) {
+            int[] data = queue.poll();
+            int current_x = data[0];
+            int current_y = data[1];
+
+            for (int i = 0; i < 4; i++) {
+                int next_x = current_x + dx[i];
+                int next_y = current_y + dy[i];
+
+                if(next_x >= 0 && next_x < M && next_y >= 0 && next_y < N) {
+                    if(!visited[next_x][next_y] && map[next_x][next_y] == 1) {
+                        visited[next_x][next_y] = true;
+                        queue.add(new int[]{next_x, next_y});
+                    }
+                }
+            }
+
+        }
     }
 
     public static void main(String[] args) throws IOException {
