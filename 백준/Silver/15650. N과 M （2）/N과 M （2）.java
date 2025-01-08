@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.StringTokenizer;
 
 
@@ -14,11 +12,12 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    //값을 담을 배열
+    static StringBuilder sb = new StringBuilder();
     static int[] arr;
-
-    //방문 여부 확인할 배열
     static boolean[] visit;
+
+    static int M;
+    static int N;
 
     static void solution() throws IOException {
 
@@ -26,58 +25,52 @@ public class Main {
 
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
         arr = new int[M];
         visit = new boolean[N];
 
-        dfs(N, M, 0);
+        dfs(0);
+
+        System.out.println(sb);
 
     }
 
-    static void dfs(int N, int M, int depth) {
-        if (depth == M) {
-            ArrayList<Integer> list = new ArrayList<>();
-            for (int val : arr) {
-                list.add(val);
-            }
-            if (checkAscending(list)) {
-                for (int val : list) {
-                    System.out.print(val + " ");
+    static void dfs(int length) {
+        if (length == M) {
+            if (checkAscending(arr)) {
+                for (int i = 0; i < M; i++) {
+                    sb.append(arr[i] + " ");
                 }
-                System.out.println();
+                sb.append("\n");
             }
             return;
         }
 
-        for (int i = 0; i < N; i++) {
-            if (!visit[i]) {
-
-                visit[i] = true;
-                arr[depth] = i + 1;
-                dfs(N, M, depth + 1);
-
-                visit[i] = false;
+        for (int i = 1; i <= N; i++) {
+            if (!visit[i - 1]) {
+                visit[i - 1] = true;
+                arr[length] = i;
+                dfs(length + 1);
+                visit[i - 1] = false;
             }
         }
     }
 
-    static boolean checkAscending(ArrayList<Integer> list) {
+    static boolean checkAscending(int[] arr) {
+        boolean isAscending = true;
+        int before = arr[0];
 
-        int maxN = Integer.MIN_VALUE;
-
-        boolean check = true;
-
-        for (int num : list) {
-            maxN = Math.max(maxN, num);
-
-            if (maxN != num) {
-                check = false;
+        for (int i = 1; i < M; i++) {
+            if (arr[i] < before) {
+                isAscending = false;
+                break;
             }
+            before = arr[i];
         }
 
-        return check;
+        return isAscending;
     }
 
 
