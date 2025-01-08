@@ -17,6 +17,7 @@ public class Main {
 
     static int N;
     static int[] num;
+    static boolean[] visited;
     static int a;
     static int b;
 
@@ -25,6 +26,7 @@ public class Main {
 
         N = Integer.parseInt(br.readLine());
         num = new int[N + 1];
+        visited = new boolean[N + 1];
 
         StringTokenizer st = new StringTokenizer(br.readLine());
 
@@ -42,34 +44,42 @@ public class Main {
     }
 
     static int bfs(int start) {
-        // 즉 왔던 위치로 다시 되돌아가는 경우는 배제해야함!!!!!
+        // 왔던 위치로 다시 되돌아가는 경우는 배제해야함!!!!!
+        // queue에 저장되는 데이터
+        // index 0 : 현재 위치
+        // index 1 : 현재 위치에 도달하는데 소요된 횟수
+        // index 2 : 현재 위치에 도달하기 이전 위치 -> 무한 반복을 방지하기 위함
         Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{start, 0, start});
+        queue.add(new int[]{start, 0});
+        visited[start] = true;
 
         while (!queue.isEmpty()) {
             int[] data = queue.poll();
             int currentIndex = data[0];
             int count = data[1];
-            int beforeIndex = data[2];
             int currentNum = num[currentIndex];
 
             if (Math.abs((b - currentIndex)) % currentNum == 0) {
                 return count + 1;
             } else {
                 for (int i = currentIndex - currentNum; i >= 1; i -= currentNum) {
-                    if (beforeIndex != currentIndex || count == 0)
-                        queue.add(new int[]{i, count + 1, currentIndex});
+                    if(!visited[i]) {
+                        visited[i] = true;
+                        queue.add(new int[]{i, count + 1});
+                    }
                 }
 
                 for (int i = currentIndex + currentNum; i <= N; i += currentNum) {
-                    if (beforeIndex != currentIndex || count == 0)
-                        queue.add(new int[]{i, count + 1, currentIndex});
+                    if (!visited[i]) {
+                        visited[i] = true;
+                        queue.add(new int[]{i, count + 1});
+                    }
                 }
             }
 
         }
 
-        return-1;
+        return -1;
     }
 
     public static void main(String[] args) throws IOException {
