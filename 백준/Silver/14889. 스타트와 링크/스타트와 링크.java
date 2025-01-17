@@ -57,6 +57,7 @@ public class Main {
             }
 
             minDifference = Math.min(minDifference, Math.abs(startTeamScore - linkTeamScore));
+            return;
         }
 
         for (int i = index; i <= N; i++) {
