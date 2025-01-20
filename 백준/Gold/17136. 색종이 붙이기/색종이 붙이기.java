@@ -52,6 +52,10 @@ public class Main {
 
     static void backTracking(int x, int y, int paperCount, int index) {
 
+        if(paperCount >= minPaperCount) {
+            return;
+        }
+
         for (int i = 5; i >= 1; i--) {
             int size = i;
             if (count[size - 1] > 0) {
