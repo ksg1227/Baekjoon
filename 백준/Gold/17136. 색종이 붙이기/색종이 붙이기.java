@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * 스터디 1주차
  * 백트래킹
- * 백준 14888번 : 연산자 끼워넣기
+ * 백준 17136번 : 색종이 붙이기
  */
 
 public class Main {
@@ -36,7 +36,7 @@ public class Main {
 
         if (!list.isEmpty()) {
             int[] start = list.get(0);
-            backTracking(start[0], start[1], 0);
+            backTracking(start[0], start[1], 0, 0);
 
             if (isPossible) {
                 System.out.println(minPaperCount);
@@ -50,12 +50,7 @@ public class Main {
 
     }
 
-    static void backTracking(int x, int y, int paperCount) {
-//        if (checkNoOne()) {
-//            isPossible = true;
-//            minPaperCount = Math.min(minPaperCount, paperCount);
-//            return;
-//        }
+    static void backTracking(int x, int y, int paperCount, int index) {
 
         for (int i = 5; i >= 1; i--) {
             int size = i;
@@ -72,9 +67,9 @@ public class Main {
                         return;
                     }
 
-                    for (int j = 0; j < list.size(); j++) {
+                    for (int j = index; j < list.size(); j++) {
                         if (map[list.get(j)[0]][list.get(j)[1]] == 1) {
-                            backTracking(list.get(j)[0], list.get(j)[1], paperCount + 1);
+                            backTracking(list.get(j)[0], list.get(j)[1], paperCount + 1, j + 1);
                             break;
                         }
                     }
