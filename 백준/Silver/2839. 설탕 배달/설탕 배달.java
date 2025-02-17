@@ -1,49 +1,61 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-
-/*
-    단계별로 풀어보기
-    브루트포스
-    2839번 문제: 설탕 배달
-*/
+/**
+ * 스터디 7주차
+ * 그리디
+ * 백준 2839번 : 설탕 배달
+ */
 
 public class Main {
 
-    static void solution() throws IOException {
+    static int N;
 
+    // 5로 나눠보고 나머지를 3으로 나눠보는 경우
+
+    // 3으로만 나눠보는 경우
+
+    static int result = -1;
+
+    static void solution() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
+        // 5킬로그램짜리 1개, 2개, ...
 
-        int max5 = N / 5;
-        int max3 = N / 3;
+        for (int i = N / 5; i >= 0; i--) {
+            int num = N - 5 * i;
 
-        int min = 5000;
+            int count = 0;
+            count += i; // 5 킬로그램짜리 개수
 
-        for (int i = 0; i <= max5; i++) {
-            for (int j = 0; j <= max3; j++) {
-                if (5 * i + 3 * j == N) {
-                    min = Math.min(min, i+j);
-                }
+            if (num % 3 == 0) {
+                count += num / 3;
+
+                result = count;
+                break;
             }
         }
 
-        if(min == 5000){
-            System.out.println(-1);
-        }else {
-            System.out.println(min);
-        }
+        System.out.println(result);
 
 
     }
 
-    public static void main(String args[]) throws Exception {
-        new Main().solution();
+
+    public static void main(String[] args) throws IOException {
+        solution();
     }
+
 }
+
+
+
+
+
+
 
 
