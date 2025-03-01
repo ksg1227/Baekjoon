@@ -31,92 +31,76 @@ public class Main {
             int x = Integer.parseInt(st.nextToken());
             int y = Integer.parseInt(st.nextToken());
 
-            if (x == y) {
-                sb.append(x).append("\n");
-                continue;
-            }
+            int max = (M * N) / GCD(M, N);
 
-            // 큰 쪽의 숫자에 맞춰야함
+            int order = 0;
+
+            // 큰 쪽에 맞춰야함
             if (M > N) {
-                int beforeNum = 0;
-
-                if (x % N == 0) {
-                    beforeNum = N;
-                } else{
-                    beforeNum = x % N;
-                }
-
-                int order = x;
                 boolean isExist = false;
+                for (int j = x; j <= max; j += M) {
+                    order = j;
 
-                if(beforeNum == y) {
-                    sb.append(order).append("\n");
-                    continue;
-                }
+                    int check = 0;
 
-                for (int j = 2; j <= N; j++) {
-                    order += M;
-
-                    if ((beforeNum + (Math.abs(M - N) % N)) % N == 0) {
-                        beforeNum = beforeNum + (Math.abs(M - N) % N);
-                    } else {
-                        beforeNum = (beforeNum + (Math.abs(M - N) % N)) % N;
+                    if(order % N == 0) {
+                        check = N;
+                    } else{
+                        check = order % N;
                     }
 
-                    if (beforeNum == y) {
-                        sb.append(order).append("\n");
+                    if (check == y) {
                         isExist = true;
+                        sb.append(order).append("\n");
                         break;
                     }
                 }
 
-                if (!isExist) {
+                if(!isExist) {
                     sb.append(-1).append("\n");
                 }
-
             } else if (M < N) {
-                int beforeNum = 0;
-
-                if (y % M == 0) {
-                    beforeNum = M;
-                } else{
-                    beforeNum = y % M;
-                }
-
-                int order = y;
                 boolean isExist = false;
 
-                if(beforeNum == x) {
-                    sb.append(order).append("\n");
-                    continue;
-                }
+                for (int j = y; j <= max; j += N) {
+                    order = j;
 
-                for (int j = 2; j <= M; j++) {
-                    order += N;
+                    int check = 0;
 
-                    if ((beforeNum + (Math.abs(M - N) % M)) % M == 0) {
-                        beforeNum = beforeNum + (Math.abs(M - N) % M);
-                    } else {
-                        beforeNum = (beforeNum + (Math.abs(M - N) % M)) % M;
+                    if(order % M == 0) {
+                        check = M;
+                    } else{
+                        check = order % M;
                     }
 
-                    if (beforeNum == x) {
-                        sb.append(order).append("\n");
+                    if (check == x) {
                         isExist = true;
+                        sb.append(order).append("\n");
                         break;
                     }
                 }
 
-                if (!isExist) {
+                if(!isExist) {
                     sb.append(-1).append("\n");
                 }
-
             } else {
-                sb.append(-1).append("\n");
+                if (x == y) {
+                    sb.append(x).append("\n");
+                } else {
+                    sb.append(-1).append("\n");
+                }
             }
         }
 
         System.out.println(sb);
+    }
+
+    static int GCD(int a, int b) {
+        if (a % b == 0) {
+            return b;
+        }
+
+        return GCD(b, a % b);
     }
 
 
