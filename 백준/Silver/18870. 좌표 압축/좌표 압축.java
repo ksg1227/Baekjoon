@@ -1,60 +1,64 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
-
 /*
-    단계별로 풀어보기
-    정렬
-    18870번 문제: 좌표 압축
-*/
+    solved.ac
+    class3
+    18870번 문제 : 좌표 압축
+ */
 
 public class Main {
 
+    // nlogn + n + n = nlogn
+    // 정렬, 작은 것 부터
+
+    static int N;
+
+    static int[] original;
+    static int[] sort;
+    static Map<Integer, Integer> map = new HashMap<>();
+
+    static int count = 0;
+
     static void solution() throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
-        int N = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine());
+
+        original = new int[N];
+        sort = new int[N];
 
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int[] origin = new int[N];
-        int[] sorted = new int[N];
-
-        HashMap<Integer, Integer> rankingMap = new HashMap<>();
-
         for (int i = 0; i < N; i++) {
             int num = Integer.parseInt(st.nextToken());
-            origin[i] = num;
-            sorted[i] = num;
+
+            original[i] = num;
+            sort[i] = num;
         }
 
-        Arrays.sort(sorted);
-
-        int rank = 0;
+        Arrays.sort(sort);
 
         for (int i = 0; i < N; i++) {
-            if(!rankingMap.containsKey(sorted[i])){
-                rankingMap.put(sorted[i],rank);
-                rank++;
+            if(!map.containsKey(sort[i])) {
+                map.put(sort[i], count++);
             }
         }
 
-        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<N;i++) {
+            int key = original[i];
 
-        for(int i=0;i<N;i++){
-            sb.append(rankingMap.get(origin[i])).append(" ");
+            sb.append(map.get(key)).append(" ");
         }
 
         System.out.println(sb);
-
-
-
-
     }
 
-    public static void main(String args[]) throws Exception {
-        new Main().solution();
+
+    public static void main(String[] args) throws Exception {
+        Main.solution();
     }
 }
-
