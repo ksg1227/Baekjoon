@@ -3,90 +3,95 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-
 /*
     solved.ac
-    class2
+    class3
     18111번 문제 : 마인크래프트
  */
 
 public class Main {
 
+    // 판정하고자 하는 값 = K
+    // count += 현재 좌표의 값 - K
+    // 결과 count >= B
+
+    // 최소 시간.
+
+    static int N;
+    static int M;
+    static int B;
+
+    static int resultHeight;
+    static int minTime = Integer.MAX_VALUE;
+
+    static int[][] ground;
+
+    static int max = 0;
+
     static void solution() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        //1번 작업 = 2초 -> O(2N)
-        //2번 작업 = 1초 -> O(N)
-        //인벤토리에는 B개의 블록이 들어있음
-
-        //가장 큰 약수를 구해야함
+        StringBuilder sb = new StringBuilder();
 
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int N = 0;
-        int M = 0;
-        int B = 0; //64 * 10^6 = 20^6
-
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         B = Integer.parseInt(st.nextToken());
 
-        int[][] arr = new int[N][M];
-
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
+        ground = new int[N][M];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-
             for (int j = 0; j < M; j++) {
-                int num = Integer.parseInt(st.nextToken());
-                arr[i][j] = num;
+                int height = Integer.parseInt(st.nextToken());
 
-                min = Math.min(num, min);
-                max = Math.max(num, max);
+                max = Math.max(max, height);
+                ground[i][j] = height;
             }
         }
 
-
-        int time = Integer.MAX_VALUE;
-        int height = Integer.MIN_VALUE;
-
-        for (int i = min; i <= max; i++) {
-
-            int tempTime = 0;
-            int storeB = B;
-
-            for (int j = 0; j < N; j++) {
-                for (int k = 0; k < M; k++) {
-                    if (arr[j][k] >= i) {
-                        storeB += (arr[j][k] - i);
-                        tempTime += 2 * (arr[j][k] - i);
-                    }else{
-                        storeB -= (i - arr[j][k]);
-
-                        tempTime += (i - arr[j][k]);
-
-                    }
+        for (int i = max; i >= 0; i--) {
+            int time = checkTime(i);
+            if (time != -1) {
+                if (minTime > time) {
+                    minTime = time;
+                    resultHeight = i;
                 }
             }
-
-            if(storeB < 0){
-                continue;
-            }
-
-            time = Math.min(time, tempTime);
-
-            if(time == tempTime){
-                height = Math.max(height, i);
-            }
         }
 
-        System.out.println(time + " " + height);
+        sb.append(minTime).append(" ").append(resultHeight);
+
+        System.out.println(sb);
 
 
     }
+
+    static int checkTime(int height) {
+
+        int plus = 0;    // 주어진 높이보다 더 높게 쌓인 블럭 수 == 블록을 제거해야하는 횟수
+        int minus = 0;   // 주어진 높이보다 더 낮게 쌓인 블럭 수 == 인벤토리에서 꺼내야하는 횟수
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (ground[i][j] < height) {
+                    minus += height - ground[i][j];
+                    continue;
+                }
+
+                if (ground[i][j] > height) {
+                    plus += ground[i][j] - height;
+                }
+            }
+        }
+
+        if (plus - minus + B < 0) {
+            return -1;
+        }
+
+        return plus * 2 + minus;
+    }
+
 
     public static void main(String[] args) throws Exception {
         Main.solution();
