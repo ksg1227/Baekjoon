@@ -50,11 +50,12 @@ public class Main {
             }
         }
 
+        visited[startX][startY] = true;
         dfs(startX, startY);
 
-        if(count == 0) {
+        if (count == 0) {
             System.out.println("TT");
-        } else{
+        } else {
             System.out.println(count);
         }
 
@@ -63,7 +64,6 @@ public class Main {
 
     static void dfs(int currentX, int currentY) {
 
-        visited[currentX][currentY] = true;
         if (map[currentX][currentY] == 'P') {
             count++;
         }
@@ -74,6 +74,7 @@ public class Main {
 
             if (nextX >= 0 && nextX < N && nextY >= 0 && nextY < M) {
                 if (!visited[nextX][nextY] && map[nextX][nextY] != 'X') {
+                    visited[nextX][nextY] = true;
                     dfs(nextX, nextY);
                 }
             }
