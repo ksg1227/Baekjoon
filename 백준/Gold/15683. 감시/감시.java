@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 /**
  * 스터디 10주차
  * 백트래킹
- * 백준 15683번 : 감시
+ * 백준 14620번 : 꽃길
  */
 
 public class Main {
@@ -60,9 +60,10 @@ public class Main {
         for (int i = start; i < cctv.size(); i++) {
             Position position = cctv.get(i);
 
+            int[][] original = new int[N][M];
+            copyMap(office, original);
+
             if (office[position.x][position.y] == 1) {
-                int[][] original = new int[N][M];
-                copyMap(office, original);
 
                 for (int j = 0; j < 4; j++) {
                     if (j == 0) { // 오른쪽
@@ -82,9 +83,6 @@ public class Main {
                 }
             } else if (office[position.x][position.y] == 2) {
 
-                int[][] original = new int[N][M];
-                copyMap(office, original);
-
                 for (int j = 0; j < 2; j++) {
                     if (j == 0) { // 가로
                         fillRight(position.x, position.y);
@@ -100,8 +98,6 @@ public class Main {
                     copyMap(original, office);
                 }
             } else if (office[position.x][position.y] == 3) {
-                int[][] original = new int[N][M];
-                copyMap(office, original);
 
                 for (int j = 0; j < 4; j++) {
                     if (j == 0) { // 위쪽 & 오른쪽
@@ -124,8 +120,6 @@ public class Main {
                     copyMap(original, office);
                 }
             } else if (office[position.x][position.y] == 4) {
-                int[][] original = new int[N][M];
-                copyMap(office, original);
 
                 for (int j = 0; j < 4; j++) {
                     if (j == 0) { // 위쪽 & 가로
@@ -152,10 +146,7 @@ public class Main {
                     copyMap(original, office);
                 }
             } else {
-
-                int[][] original = new int[N][M];
-                copyMap(office, original);
-
+                
                 // 채우기
                 fillLeft(position.x, position.y);
                 fillTop(position.x, position.y);
