@@ -13,7 +13,7 @@ class Solution {
             map.put(num, map.getOrDefault(num, 0) + 1);
         }
         
-        int size = map.keySet().size();
+        int size = map.size();
         
         if(size <= N/2) {
             answer = size;
