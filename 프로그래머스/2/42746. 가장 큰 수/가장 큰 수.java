@@ -9,7 +9,7 @@ class Solution {
         // 사전식
         List<String> list = Arrays.stream(numbers)
             .boxed()
-            .map(i -> String.valueOf(i))
+            .map(String::valueOf)
             .collect(Collectors.toList());
         
         Collections.sort(list, (String o1, String o2) -> {
