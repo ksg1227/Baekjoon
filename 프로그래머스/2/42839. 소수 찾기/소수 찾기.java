@@ -23,8 +23,6 @@ class Solution {
     
     void makeNum(int length, int count, String numbers, String current) {
         
-        System.out.println(current);
-        
         int num = Integer.parseInt(current);
         
         if(isPrime(num)) {
@@ -51,7 +49,7 @@ class Solution {
             return true;
         }
         
-        for(int i=2;i<num;i++) {
+        for(int i=2;i<=Math.sqrt(num);i++) {
             if(num % i == 0) {
                 return false;
             }
