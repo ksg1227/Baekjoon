@@ -6,7 +6,6 @@ class Solution {
     public int solution(int n, int[][] wires) {
         int answer = Integer.MAX_VALUE;
         
-        // 끊는 선을 기준으로 양 끝에 붙은 걸 가지고 BFS나 DFS 돌리기
         for(int i=0;i<wires.length;i++) {
             visited = new boolean[n+1];
             
@@ -17,20 +16,10 @@ class Solution {
             
             dfs(i, wires[i][0], wires, wires.length);
             
-            int first = num;
-            
-            num = 1;
-            
-            dfs(i, wires[i][1], wires, wires.length);
-            
-            int second = num;
-            
-            System.out.println("first : " + first + " second : " + second);
-            
             visited[wires[i][0]] = false;
             visited[wires[i][1]] = false;
             
-            answer = Math.min(Math.abs(first - second), answer);
+            answer = Math.min(Math.abs(num - (n-num)), answer);
         }
         
         return answer;
