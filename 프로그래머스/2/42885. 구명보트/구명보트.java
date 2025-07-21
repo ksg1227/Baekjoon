@@ -5,28 +5,42 @@ class Solution {
     public int solution(int[] people, int limit) {
         int answer = 0;
         
+        int rescueCount = 0;
+        
         int[] peopleWeight = new int[241];
         
         for(int i : people) {
             peopleWeight[i]++;
         }
         
-        // 무거운 사람부터 처리
-        for (int i = 240; i >= 1; i--) {
+        while(rescueCount < people.length) {
             
-            while (peopleWeight[i] > 0) {
-                peopleWeight[i]--; // 가장 무거운 사람 태움
-
-                // 같이 탈 수 있는 가장 가벼운 사람 탐색
-                for (int j = 1; j <= limit - i; j++) {
-                    if (peopleWeight[j] > 0) {
-                        peopleWeight[j]--;
-                        break;
-                    }
+            // 보트에 태울 무게 => 항상 가장 몸무게가 많이 나가는 사람부터
+            int currentWeight = 0;
+            
+            for(int i=limit;i>=1;i--) {
+                if(peopleWeight[i] >= 1) {
+                    peopleWeight[i]--;
+                    currentWeight = i;
+                    rescueCount++;
+                    break;
                 }
-
-                answer++; // 보트 하나 사용
             }
+            
+                
+            // i = 더 태울 사람의 몸무게
+            for(int i=1;i<=limit - currentWeight;i++) {
+                if(peopleWeight[i] >= 1 && currentWeight + i <= limit) {
+                    currentWeight += i;
+                    peopleWeight[i]--;
+                    rescueCount++;
+
+                    break;
+                }
+            }
+            
+            answer++;
+            
         }
         
       
