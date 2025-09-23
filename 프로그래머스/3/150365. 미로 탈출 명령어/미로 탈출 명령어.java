@@ -27,48 +27,87 @@ import java.util.*;
 // 6칸 인 경우 -> ddduuu 가 최선
 
 class Solution {
-
-    int[] dx = {1, 0, 0, -1};          // d, l, r, u
+    
+    String[] direction = {"d", "l", "r", "u"};
+    
+    int[] dx = {1, 0, 0, -1};
     int[] dy = {0, -1, 1, 0};
-    char[] dir = {'d', 'l', 'r', 'u'};
-
-    int n, m, r, c, k;
-
+    
+    String result = "";
+    
+    boolean isFound = false;
+    
     public String solution(int n, int m, int x, int y, int r, int c, int k) {
-        this.n = n;
-        this.m = m;
-        this.r = r;
-        this.c = c;
-        this.k = k;
+        
+        dfs(n, m, x-1, y-1, r-1, c-1, k, new Node(x-1, y-1, ""));
+        
+        result = result.equals("") ? "impossible" : result;
 
-        StringBuilder sb = new StringBuilder();
+        return result;
+    }
+    
+    // 이동 불가 케이스 제거
+    // 1. 현재 위치 -> 목적지까지 거리가 k 보다 짧은 경우
+    // 2. (k - 현재 위치 -> 목적지까지 거리) % 2 == 1 인 경우
+    void dfs(int n, int m, int x, int y, int r, int c, int k, Node node) {
+        
+        if(isFound) {
+            return;
+        }
+        
+        String currentPath = node.path;
+        int currentX = node.x;
+        int currentY = node.y;
+        
+        if(currentX == r && currentY == c && currentPath.length() == k) {
+            isFound = true;
+            
+            if(result.equals("")) {
+                result = currentPath;
+            } else {
+                if(result.compareTo(currentPath) >= 0) {
+                    result = currentPath;
+                }
+            }
+            
+            return;
+        }
+        
+        // 앞으로 이동해야할 거리
+        int remain = k - currentPath.length();
+        
+        // 현재 위치에서 도착지까지 거리
+        int distance =  Math.abs(r - currentX) + Math.abs(c - currentY);
+        
+        // 불가 케이스
+        if(remain < distance || (remain - distance) % 2 == 1) {
+            return;
+        }
 
-        return dfs(x, y, sb) ? sb.toString() : "impossible";
+        for(int i=0;i<4;i++) {
+            String nextDirection = direction[i];
+
+            int nextX = currentX + dx[i];
+            int nextY = currentY + dy[i];
+
+            if(nextX >= 0 && nextX < n && nextY >= 0 && nextY < m) {
+                dfs(n, m, x, y, r, c, k, new Node(nextX, nextY, currentPath + nextDirection));
+            }
+        }
+    
     }
 
-    // DFS로 사전순 경로를 탐색하며 유효한 경로를 찾으면 true 반환
-    public boolean dfs(int x, int y, StringBuilder sb) {
-        if (sb.length() == k) {
-            return x == r && y == c;
+    
+    
+    class Node {
+        int x;
+        int y;
+        String path;
+        
+        Node(int x, int y, String path) {
+            this.x = x;
+            this.y = y;
+            this.path = path;
         }
-
-        int remain = k - sb.length();
-        int distance = Math.abs(x - r) + Math.abs(y - c);
-
-        // 가지치기: 남은 거리보다 많이 이동해야 하거나, 도달 가능성이 없는 경우
-        if (remain < distance || (remain - distance) % 2 != 0) return false;
-
-        for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-
-            if (nx < 1 || nx > n || ny < 1 || ny > m) continue;
-
-            sb.append(dir[i]);
-            if (dfs(nx, ny, sb)) return true;
-            sb.deleteCharAt(sb.length() - 1);  // 백트래킹
-        }
-
-        return false;
     }
 }
