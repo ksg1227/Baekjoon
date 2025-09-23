@@ -1,0 +1,7 @@
+-- 코드를 입력하세요
+SELECT 
+    fh.FLAVOR
+FROM FIRST_HALF fh
+ORDER BY
+    fh.TOTAL_ORDER DESC,
+    fh.SHIPMENT_ID ASC
