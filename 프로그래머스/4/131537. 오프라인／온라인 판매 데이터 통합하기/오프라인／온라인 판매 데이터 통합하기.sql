@@ -9,7 +9,7 @@ SELECT
 from online_sale ols
 where ols.sales_date >= '2022-03-01' and ols.sales_date <= '2022-03-31'
 
-union all
+union
 
 SELECT
     date_format(ofs.sales_date, '%Y-%m-%d') sales_date,
