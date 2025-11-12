@@ -46,10 +46,8 @@ public class Main {
                 if (currentMoney >= money[i]) {
                     currentMoney -= money[i];
                 } else { // 인출하는 경우
-                    int withdrawCount = (int) Math.ceil((double) money[i] / k);
-
-                    currentMoney = k * withdrawCount - money[i]; // 인출 후 생활비 내야함
-                    count += withdrawCount;
+                    currentMoney = k - money[i]; // 인출 후 생활비 내야함
+                    count ++;
                 }
             }
 
