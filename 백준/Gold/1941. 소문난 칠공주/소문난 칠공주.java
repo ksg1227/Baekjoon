@@ -1,106 +1,101 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
-
-/**
- * 스터디 1주차
- * bfs / dfs
- * 백준 1941번 : 소문난 칠공주
- */
 
 public class Main {
 
-    // 7번을 이동해서 S가 4개 이상이어야함
-
+    // 각각의 위치
+    static int[] positions = new int[7];
+    static int result = 0;
     static char[][] map = new char[5][5];
-    static boolean[] visited;
-    static int[] selected = new int[7];
 
-    static int[] dx = {0, -1, 0, 1};
-    static int[] dy = {1, 0, -1, 0};
-    static int answer = 0;
-
-    static void solution() throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         for (int i = 0; i < 5; i++) {
             String line = br.readLine();
-            map[i] = line.toCharArray();
-        }
 
-        backTracking(0, 0, 0);
-
-        System.out.println(answer);
-
-    }
-
-    public static void backTracking(int depth, int numY, int start) {
-        if (numY >= 4) {
-            return;
-        }
-
-        if (depth == 7) {
-            visited = new boolean[7];  // 각 장소를 방문했는지 안했는지 여부 확인
-            bfs();
-            return;
-        }
-
-        for (int i = start; i < 25; i++) {
-            selected[depth] = i;
-            if (map[i / 5][i % 5] == 'Y') {
-                backTracking(depth + 1, numY + 1, i + 1);
-            } else {
-                backTracking(depth + 1, numY, i + 1);
+            for (int j = 0; j < 5; j++) {
+                map[i][j] = line.charAt(j);
             }
         }
+
+        combination(0, 0);
+
+        System.out.println(result);
+
     }
 
-    static void bfs() {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(selected[0]);
+    static void combination(int currentIndex, int size) {
+
+        if (size == 7) {
+            if (isPossible()) {
+                result++;
+            }
+
+            return;
+        }
+
+        for (int i = currentIndex; i < 25; i++) {
+            positions[size] = i;
+
+            combination(i + 1, size + 1);
+        }
+    }
+
+    static boolean isPossible() {
+        Queue<Integer> queue = new ArrayDeque<>();
+
+        boolean[] visited = new boolean[7];
+
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+
+        queue.add(positions[0]);
         visited[0] = true;
 
-        int connect = 1;
+        // 현재 연결된 수
+        int connectCount = 1;
+
+        int sCount = 0;
+
+        if (map[positions[0] / 5][positions[0] % 5] == 'S') {
+            sCount++;
+        }
 
         while (!queue.isEmpty()) {
-            int idx = queue.poll();
-            int x = idx / 5;
-            int y = idx % 5;
+            int currentPos = queue.poll();
+            int x = currentPos / 5;
+            int y = currentPos % 5;
 
             for (int i = 0; i < 4; i++) {
                 int nextX = x + dx[i];
                 int nextY = y + dy[i];
-                int nextIdx = nextX * 5 + nextY;
 
                 if (nextX >= 0 && nextX < 5 && nextY >= 0 && nextY < 5) {
+                    int nextPos = nextX * 5 + nextY;
+
                     for (int j = 0; j < 7; j++) {
-                        if(!visited[j] && selected[j] == nextIdx) {
-                            queue.add(nextIdx);
+                        if (nextPos == positions[j] && !visited[j]) {
+                            connectCount++;
                             visited[j] = true;
-                            connect++;
+
+                            if (map[nextX][nextY] == 'S') {
+                                sCount++;
+                            }
+
+                            if (connectCount == 7) {
+                                return sCount >= 4;
+                            }
+
+
+                            queue.offer(nextPos);
                         }
                     }
                 }
+
             }
         }
 
-        if(connect == 7) {
-            answer++;
-        }
-
+        return false;
     }
-
-
-    public static void main(String[] args) throws IOException {
-        solution();
-    }
-
 }
-
-
-
-
-
-
-
