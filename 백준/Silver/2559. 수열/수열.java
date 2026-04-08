@@ -1,50 +1,44 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-/*
-    단계별로 풀어보기
-    누적합
-    2559번 문제: 수열
-*/
 public class Main {
+	
+	static int N, K;
+	static int[] nums;
 
-    static int[] dates;
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+		
+		N = Integer.parseInt(st.nextToken());
+		K = Integer.parseInt(st.nextToken());
+		
+		nums = new int[N];
+		
+		st = new StringTokenizer(br.readLine(), " ");
+		for(int i=0;i<N;i++) {
+			nums[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		int sum = 0;
+		for(int i=0;i<K;i++) {
+			sum += nums[i];
+		}
+		
+		int result = sum;
+		
+		for(int i=1;i<=N-K;i++) {
+			int next = sum - nums[i-1] + nums[i + K - 1];
+			
+			result = Math.max(result,  next);
+			sum = next;
+		}
+		
+		System.out.println(result);
+		
+		
+	}
 
-    static void solution() throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-
-        st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-
-        dates = new int[N];
-
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            if (i == 0) {
-                dates[i] = Integer.parseInt(st.nextToken());
-            } else {
-                dates[i] = Integer.parseInt(st.nextToken()) + dates[i - 1];
-            }
-        }
-
-        int max = Integer.MIN_VALUE;
-
-        for (int i = K - 1; i < N; i++) {
-            if (i == K - 1) {
-                max = Math.max(max, dates[i]);
-            } else {
-                max = Math.max(max, dates[i] - dates[i - K]);
-            }
-        }
-
-        System.out.println(max);
-    }
-
-    public static void main(String[] args) throws IOException {
-        solution();
-    }
 }
